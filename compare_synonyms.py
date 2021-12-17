@@ -36,20 +36,43 @@ def load_json(in_file):
 '''
 def compare_syn(targets,results):
     score = []
+    score_10 = []
+    score_25 = []
+    score_50 = []
+
     for i,result in enumerate(results):
         #result is list of 100 words
         cur_synonyms = get_synonyms(targets[i]) #synonyms of target of current iteration
-        len_syn = len(cur_synonyms)
-        cur_score=0
 
+        cur_score=0
+        cur_score10=0
+        cur_score25=0
+        cur_score50=0
+
+        for word in cur_synonyms:
+            if word in result[:10]:
+                cur_score10+=1
+
+        for word in cur_synonyms:
+            if word in result[:25]:
+                cur_score25+=1
+
+        for word in cur_synonyms:
+            if word in result[:50]:
+                cur_score50+=1
+        
         for word in cur_synonyms:
             if word in result:
                 cur_score+=1
-        
-        # score = score/len_syn
+
+        score_10.append(cur_score10)
+        score_25.append(cur_score25)
+        score_50.append(cur_score50)
         score.append(cur_score)
-    
-    return score
+
+    scores=[score_10,score_25,score_50,score]
+    avg_scores=[sum(score)/len(score) for score in scores]
+    return avg_scores
 
     
 def main():
@@ -86,10 +109,14 @@ def main():
     unseen_500_rol = load_json(unseen_500_rol)
     
 
-    score = compare_syn(data_desc_targets,data_desc_rww)
-    avg_score = sum(score)/len(score)
-    
-    
+    print(compare_syn(data_desc_targets,data_desc_rww))
+    print(compare_syn(data_desc_targets,data_desc_rol))
+    print("*"*20)
+    print(compare_syn(seen_500_targets,seen_500_rww))
+    print(compare_syn(seen_500_targets,seen_500_rol))
+    print("*"*20)
+    print(compare_syn(unseen_500_targets,unseen_500_rww))
+    print(compare_syn(unseen_500_targets,unseen_500_rol))
 
 if __name__ == '__main__':
     main()
