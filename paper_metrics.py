@@ -10,44 +10,92 @@ seen_r = "data_seen_results"
 ww = "_ww.json"
 ol = "_ol.json"
 
-data = json.load(open(osp.join("data", desc), "r"))
-results = json.load(open(osp.join("results", desc_r + ol), "r"))
-total = len(results)
-indexes = []
-top_1 = 0
-top_10 = 0
-top_100 = 0
+data_files = [desc, unseen, seen]
+result_files = [desc_r, unseen_r, seen_r]
+ends = [ww, ol]
 
-for i in range(total):
-    for j in range(len(results[i])):
-        results[i][j] = str.lower(results[i][j])
+for end in ends:
+    for k in range(3):
+        data = json.load(open(osp.join("data", data_files[k]), "r"))
+        results = json.load(open(osp.join("results", result_files[k] + end), "r"))
+        total = len(results)
+        indexes = []
+        top_1 = 0
+        top_10 = 0
+        top_100 = 0
 
-for i in range(total):
-    # if i < 10:
-    #     print(data[i]["word"])
-    try:
-        index = results[i].index(str.lower(data[i]["word"]))
-        if i < 10:
-            print(data[i]["word"])
+        for i in range(total):
+            for j in range(len(results[i])):
+                results[i][j] = str.lower(results[i][j])
 
-        indexes.append(index+1)
-        if index < 100:
-            top_100 += 1
-        if index < 10:
-            top_10 += 1
-        if index < 1:
-            top_1 += 1
-    except:
-        continue
+        for i in range(total):
+            # if i < 10:
+            #     print(data[i]["word"])
+            try:
+                index = results[i].index(str.lower(data[i]["word"]))
+                # if i < 10:
+                #     print(data[i]["word"])
+                indexes.append(index+1)
+                if index < 100:
+                    top_100 += 1
+                if index < 10:
+                    top_10 += 1
+                if index < 1:
+                    top_1 += 1
+            except:
+                continue
 
-# median rank
-print(f'median: {sum(indexes) / len(indexes)}')
-# top 1/10/100
-print(f'top 1: {top_1 / total}')
-print(f'top 10: {top_10 / total}')
-print(f'top 100: {top_100 / total}')
+        # median rank
+        print("----------------------------------------------------")
+        print(f'config: {result_files[k]}-{end}')
+        print(f'median: {sum(indexes) / len(indexes)}')
+        # top 1/10/100
+        print(f'top 1: {top_1 / total}')
+        print(f'top 10: {top_10 / total}')
+        print(f'top 100: {top_100 / total}')
+        print("----------------------------------------------------")
 
 # median: 7.151351351351352
 # top 1: 0.415
 # top 10: 0.795
 # top 100: 0.925
+
+for end in ends:
+    targets = open(osp.join("data", "user_gen_target.txt"), "r").read().splitlines()
+    results = json.load(open(osp.join("results", "user_gen_defs_results" + end), "r"))
+    total = len(results)
+    indexes = []
+    top_1 = 0
+    top_10 = 0
+    top_100 = 0
+
+    for i in range(total):
+        for j in range(len(results[i])):
+            results[i][j] = str.lower(results[i][j])
+
+    for i in range(total):
+        # if i < 10:
+        #     print(data[i]["word"])
+        try:
+            index = results[i].index(str.lower(targets[i]))
+            # if i < 10:
+            #     print(data[i]["word"])
+            indexes.append(index+1)
+            if index < 100:
+                top_100 += 1
+            if index < 10:
+                top_10 += 1
+            if index < 1:
+                top_1 += 1
+        except:
+            continue
+
+    # median rank
+    print("----------------------------------------------------")
+    print(f'config: usergen-{end}')
+    print(f'median: {sum(indexes) / len(indexes)}')
+    # top 1/10/100
+    print(f'top 1: {top_1 / total}')
+    print(f'top 10: {top_10 / total}')
+    print(f'top 100: {top_100 / total}')
+    print("----------------------------------------------------")

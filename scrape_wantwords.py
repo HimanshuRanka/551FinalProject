@@ -65,6 +65,31 @@ def get_all_results(data, driver):
     return all_results
 
 
+def get_results_user_gen(data, driver):
+    all_results = []
+    for obj in data:
+        driver.get(URL)
+        driver = setup(driver)
+        driver = query(driver, obj)  # test
+        time.sleep(0.8)
+        results_list = results(driver)
+        try:
+            print(f'{obj}: {results_list[0:3]}')
+            all_results.append(results_list)
+        except:
+            driver.get(URL)
+            driver = setup(driver)
+            driver = query(driver, obj)  # test
+            time.sleep(1.8)
+            results_list = results(driver)
+            all_results.append(results_list)
+            try:
+                print(f'{obj}: {results_list[0:3]}')
+            except:
+                print("fix this manually")
+    return all_results
+
+
 def main():
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
     driver.set_window_size(1440, 900)
@@ -76,24 +101,30 @@ def main():
     print(results_list)
     print(len(results_list))
 
-    with open(osp.join("data", "data_desc_c.json"), "r") as file:
-        data = json.load(file)
-    with open(osp.join("results", "data_desc_results_ww.json"), "w") as output:
-        json.dump(get_all_results(data, driver), output)
+    # with open(osp.join("data", "data_desc_c.json"), "r") as file:
+    #     data = json.load(file)
+    # with open(osp.join("results", "data_desc_results_ww.json"), "w") as output:
+    #     json.dump(get_all_results(data, driver), output)
+    #
+    # print("...collected data for desc...\n...moving on to unseen data...")
+    #
+    # with open(osp.join("data", "data_test_500_rand1_unseen.json"), "r") as file:
+    #     data = json.load(file)
+    # with open(osp.join("results", "data_unseen_results_ww.json"), "w") as output:
+    #     json.dump(get_all_results(data, driver), output)
+    #
+    # print("...collected data for unseen...\n...moving on to seen data...")
+    #
+    # with open(osp.join("data", "data_test_500_rand1_seen.json"), "r") as file:
+    #     data = json.load(file)
+    # with open(osp.join("results", "data_seen_results_ww.json"), "w") as output:
+    #     json.dump(get_all_results(data, driver), output)
 
-    print("...collected data for desc...\n...moving on to unseen data...")
-
-    with open(osp.join("data", "data_test_500_rand1_unseen.json"), "r") as file:
-        data = json.load(file)
-    with open(osp.join("results", "data_unseen_results_ww.json"), "w") as output:
-        json.dump(get_all_results(data, driver), output)
-
-    print("...collected data for unseen...\n...moving on to seen data...")
-
-    with open(osp.join("data", "data_test_500_rand1_seen.json"), "r") as file:
-        data = json.load(file)
-    with open(osp.join("results", "data_seen_results_ww.json"), "w") as output:
-        json.dump(get_all_results(data, driver), output)
+    with open(osp.join("data", "user_gen_defs.txt"), "r") as file:
+        data = file.read().splitlines()
+        print(data[0])
+    with open(osp.join("results", "user_gen_defs_results_ww.json"), "w") as output:
+        json.dump(get_results_user_gen(data, driver), output)
 
 
 if __name__ == "__main__":
