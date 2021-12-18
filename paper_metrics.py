@@ -48,7 +48,10 @@ for end in ends:
         # median rank
         print("----------------------------------------------------")
         print(f'config: {result_files[k]}-{end}')
-        print(f'median: {sum(indexes) / len(indexes)}')
+        print(f'mean: {sum(indexes) / len(indexes)}')
+        indexes.sort()
+        mid = len(indexes) // 2
+        print(f'median: {(indexes[mid] + indexes[~mid]) // 2}')
         # top 1/10/100
         print(f'top 1: {top_1 / total}')
         print(f'top 10: {top_10 / total}')
@@ -93,7 +96,10 @@ for end in ends:
     # median rank
     print("----------------------------------------------------")
     print(f'config: usergen-{end}')
-    print(f'median: {sum(indexes) / len(indexes)}')
+    print(f'mean: {sum(indexes) / len(indexes)}')
+    indexes.sort()
+    mid = len(indexes) // 2
+    print(f'median: {(indexes[mid] + indexes[~mid]) // 2}')
     # top 1/10/100
     print(f'top 1: {top_1 / total}')
     print(f'top 10: {top_10 / total}')
