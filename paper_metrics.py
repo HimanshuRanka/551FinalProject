@@ -1,5 +1,6 @@
 import json
 import os.path as osp
+import numpy as np
 
 desc = "data_desc_c.json"
 unseen = "data_test_500_rand1_unseen.json"
@@ -43,15 +44,16 @@ for end in ends:
                 if index < 1:
                     top_1 += 1
             except:
-                continue
+                indexes.append(101)
 
         # median rank
         print("----------------------------------------------------")
         print(f'config: {result_files[k]}-{end}')
         print(f'mean: {sum(indexes) / len(indexes)}')
+        print(len(indexes))
         indexes.sort()
         mid = len(indexes) // 2
-        print(f'median: {(indexes[mid] + indexes[~mid]) // 2}')
+        print(f'median: {np.median(indexes)}')
         # top 1/10/100
         print(f'top 1: {top_1 / total}')
         print(f'top 10: {top_10 / total}')
@@ -91,13 +93,14 @@ for end in ends:
             if index < 1:
                 top_1 += 1
         except:
-            continue
+            indexes.append(200)
 
     # median rank
     print("----------------------------------------------------")
     print(f'config: usergen-{end}')
     print(f'mean: {sum(indexes) / len(indexes)}')
     indexes.sort()
+    print(len(indexes))
     mid = len(indexes) // 2
     print(f'median: {(indexes[mid] + indexes[~mid]) // 2}')
     # top 1/10/100
