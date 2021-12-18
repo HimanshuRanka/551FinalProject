@@ -101,24 +101,24 @@ def main():
     print(results_list)
     print(len(results_list))
 
-    # with open(osp.join("data", "data_desc_c.json"), "r") as file:
-    #     data = json.load(file)
-    # with open(osp.join("results", "data_desc_results_ww.json"), "w") as output:
-    #     json.dump(get_all_results(data, driver), output)
-    #
-    # print("...collected data for desc...\n...moving on to unseen data...")
-    #
-    # with open(osp.join("data", "data_test_500_rand1_unseen.json"), "r") as file:
-    #     data = json.load(file)
-    # with open(osp.join("results", "data_unseen_results_ww.json"), "w") as output:
-    #     json.dump(get_all_results(data, driver), output)
-    #
-    # print("...collected data for unseen...\n...moving on to seen data...")
-    #
-    # with open(osp.join("data", "data_test_500_rand1_seen.json"), "r") as file:
-    #     data = json.load(file)
-    # with open(osp.join("results", "data_seen_results_ww.json"), "w") as output:
-    #     json.dump(get_all_results(data, driver), output)
+    with open(osp.join("data", "data_desc_c.json"), "r") as file:
+        data = json.load(file)
+    with open(osp.join("results", "data_desc_results_ww.json"), "w") as output:
+        json.dump(get_all_results(data, driver), output)
+
+    print("...collected data for desc...\n...moving on to unseen data...")
+
+    with open(osp.join("data", "data_test_500_rand1_unseen.json"), "r") as file:
+        data = json.load(file)
+    with open(osp.join("results", "data_unseen_results_ww.json"), "w") as output:
+        json.dump(get_all_results(data, driver), output)
+
+    print("...collected data for unseen...\n...moving on to seen data...")
+
+    with open(osp.join("data", "data_test_500_rand1_seen.json"), "r") as file:
+        data = json.load(file)
+    with open(osp.join("results", "data_seen_results_ww.json"), "w") as output:
+        json.dump(get_all_results(data, driver), output)
 
     with open(osp.join("data", "user_gen_defs.txt"), "r") as file:
         data = file.read().splitlines()
