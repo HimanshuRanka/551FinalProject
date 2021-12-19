@@ -57,7 +57,6 @@ for end in ends:
                 # For Mean calculation run this
                 continue
 
-
                 # DEBUGGING CODE
                 # print("------------------------------------------------------------------------------------")
                 # print(f'DEBUG: Could not find word {data[j]["word"]} at index {j} when using {end.upper()}!')
