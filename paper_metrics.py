@@ -29,11 +29,19 @@ for end in ends:
             for j in range(len(results[i])):
                 results[i][j] = str.lower(results[i][j])
 
+        # Note that there was an issue with OneLook on inputs that contain "()" with a "," between
+        # so we quickly hardcoded a fix to skip index 81 and 271 in seen data set
+        j = -1
         for i in range(total):
-            # if i < 10:
+            j += 1
+            if end == ol and k == 2 and (i == 81 or i == 271):
+                j += 1
             #     print(data[i]["word"])
+            if j >= total:
+                break
+
             try:
-                index = results[i].index(str.lower(data[i]["word"]))
+                index = results[i].index(str.lower(data[j]["word"]))
                 # if i < 10:
                 #     print(data[i]["word"])
                 indexes.append(index+1)
@@ -44,7 +52,18 @@ for end in ends:
                 if index < 1:
                     top_1 += 1
             except:
-                indexes.append(101)
+                # For Median calculation run this
+                # indexes.append(101)
+                # For Mean calculation run this
+                continue
+
+
+                # DEBUGGING CODE
+                # print("------------------------------------------------------------------------------------")
+                # print(f'DEBUG: Could not find word {data[j]["word"]} at index {j} when using {end.upper()}!')
+                # print("------------------------------------------------------------------------------------")
+                # print(f'Input:\n {data[j]}')
+                # print(f'Result list:\n{results[i]}')
 
         # median rank
         print("----------------------------------------------------")
@@ -93,7 +112,11 @@ for end in ends:
             if index < 1:
                 top_1 += 1
         except:
-            indexes.append(200)
+            # For Median calculation run this
+            # indexes.append(101)
+            # For Mean calculation run this
+            continue
+
 
     # median rank
     print("----------------------------------------------------")
