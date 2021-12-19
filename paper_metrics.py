@@ -21,6 +21,7 @@ for end in ends:
         results = json.load(open(osp.join("results", result_files[k] + end), "r"))
         total = len(results)
         indexes = []
+        mean_indexes = []
         top_1 = 0
         top_10 = 0
         top_100 = 0
@@ -45,6 +46,7 @@ for end in ends:
                 # if i < 10:
                 #     print(data[i]["word"])
                 indexes.append(index+1)
+                mean_indexes.append(index+1)
                 if index < 100:
                     top_100 += 1
                 if index < 10:
@@ -52,10 +54,7 @@ for end in ends:
                 if index < 1:
                     top_1 += 1
             except:
-                # For Median calculation run this
-                # indexes.append(101)
-                # For Mean calculation run this
-                continue
+                mean_indexes.append(101)
 
                 # DEBUGGING CODE
                 # print("------------------------------------------------------------------------------------")
@@ -68,10 +67,7 @@ for end in ends:
         print("----------------------------------------------------")
         print(f'config: {result_files[k]}-{end}')
         print(f'mean: {sum(indexes) / len(indexes)}')
-        print(len(indexes))
-        indexes.sort()
-        mid = len(indexes) // 2
-        print(f'median: {np.median(indexes)}')
+        print(f'median: {np.median(mean_indexes)}')
         # top 1/10/100
         print(f'top 1: {top_1 / total}')
         print(f'top 10: {top_10 / total}')
@@ -88,6 +84,7 @@ for end in ends:
     results = json.load(open(osp.join("results", "user_gen_defs_results" + end), "r"))
     total = len(results)
     indexes = []
+    mean_indexes = []
     top_1 = 0
     top_10 = 0
     top_100 = 0
@@ -104,6 +101,7 @@ for end in ends:
             # if i < 10:
             #     print(data[i]["word"])
             indexes.append(index+1)
+            mean_indexes.append(index+1)
             if index < 100:
                 top_100 += 1
             if index < 10:
@@ -111,20 +109,14 @@ for end in ends:
             if index < 1:
                 top_1 += 1
         except:
-            # For Median calculation run this
-            # indexes.append(101)
-            # For Mean calculation run this
-            continue
+            mean_indexes.append(101)
 
 
     # median rank
     print("----------------------------------------------------")
     print(f'config: usergen-{end}')
     print(f'mean: {sum(indexes) / len(indexes)}')
-    indexes.sort()
-    print(len(indexes))
-    mid = len(indexes) // 2
-    print(f'median: {(indexes[mid] + indexes[~mid]) // 2}')
+    print(f'median: {np.median(mean_indexes)}')
     # top 1/10/100
     print(f'top 1: {top_1 / total}')
     print(f'top 10: {top_10 / total}')
